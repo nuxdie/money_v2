@@ -2,18 +2,16 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { Database } from 'sql.js'
+import { SQLJsDatabase, drizzle } from 'drizzle-orm/sql-js';
 
-function loadBinaryFile(path: string) {
+function loadBinaryFile(path: string): Promise<Uint8Array> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", path, true);
     xhr.responseType = "arraybuffer";
     xhr.onload = function() {
       const data = new Uint8Array(xhr.response);
-      const arr = [];
-      for(let i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
-      resolve(arr.join(""));
+      resolve(data);
     };
     xhr.onerror = function() {
       reject(xhr);
@@ -22,20 +20,30 @@ function loadBinaryFile(path: string) {
   });
 }
 
-let db: Database;
+let db: SQLJsDatabase;
 try {
   const SQL = await window.initSqlJs({
-    locateFile: (file: string) => {
-      return `./${file}`
-    }
+    locateFile: (file: string) => `./${file}`,
   });
-  db = new SQL.Database();
+  const dbFile = await loadBinaryFile('/db.sqlite');
+  const sqldb = new SQL.Database(dbFile);
+  db = drizzle(sqldb);
 } catch (error) {
   console.error(error);
 }
 
 function App() {
   const [count, setCount] = useState(0)
+
+  if (!db) {
+    return <p>Loading...</p>
+  }
+
+  db.query('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)');
+  db.query('INSERT INTO users (name) VALUES (?)', ['John']);
+  db.query('INSERT INTO users (name) VALUES (?)', ['Jane']);
+
+  console.log(db.select().from('users').all());
 
   return (
     <>
