@@ -4,7 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import initSqlJs, { Database } from 'sql.js'
 
-const SQL = initSqlJs({
+const SQL = await initSqlJs({
   locateFile: (file: string) => `./${file}`,
 });
 const db: Database = new SQL.Database();
