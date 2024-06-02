@@ -4,28 +4,12 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { SQLJsDatabase, drizzle } from 'drizzle-orm/sql-js';
 
-function loadBinaryFile(path: string): Promise<Uint8Array> {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", path, true);
-    xhr.responseType = "arraybuffer";
-    xhr.onload = function() {
-      const data = new Uint8Array(xhr.response);
-      resolve(data);
-    };
-    xhr.onerror = function() {
-      reject(xhr);
-    };
-    xhr.send();
-  });
-}
-
 let db: SQLJsDatabase;
 try {
   const SQL = await window.initSqlJs({
     locateFile: (file: string) => `./${file}`,
   });
-  const dbFile = await loadBinaryFile('/db.sqlite');
+  const dbFile = (await fetch('/db.sqlite')).arrayBuffer();
   const sqldb = new SQL.Database(dbFile);
   db = drizzle(sqldb);
 } catch (error) {
@@ -39,11 +23,13 @@ function App() {
     return <p>Loading...</p>
   }
 
-  db.query('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)');
-  db.query('INSERT INTO users (name) VALUES (?)', ['John']);
-  db.query('INSERT INTO users (name) VALUES (?)', ['Jane']);
+  console.log(db)
 
-  console.log(db.select().from('users').all());
+  // db.query('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)');
+  // db.query('INSERT INTO users (name) VALUES (?)', ['John']);
+  // db.query('INSERT INTO users (name) VALUES (?)', ['Jane']);
+
+  // console.log(db.select().from('users').all());
 
   return (
     <>
