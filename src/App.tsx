@@ -5,9 +5,11 @@ import './App.css'
 import { SQLJsDatabase, drizzle } from 'drizzle-orm/sql-js';
 import * as schema from './schema.ts';
 
+const {users} = schema
+
 function App() {
-  const [count, setCount] = useState(0)
   const [db, setDb] = useState<SQLJsDatabase<typeof schema>>()
+  const [userList, setUsers] = useState<typeof users.$inferInsert[]>([])
 
   useEffect(() => {
     (async () => {try {
@@ -26,8 +28,7 @@ function App() {
     return <p>Loading...</p>
   }
 
-  db.query.users.findMany()
-  .then(users => console.log(users))
+  db.query.users.findMany().then(users => setUsers(users))
 
   return (
     <>
@@ -41,12 +42,10 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button onClick={() => db.insert(users).values({name: 'John'})}>
+          add user
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        {userList.map(user => <p key={user.id}>{user.name}</p>)}
       </div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
