@@ -7,7 +7,7 @@ import * as schema from './schema.ts';
 
 function App() {
   const [count, setCount] = useState(0)
-  const [db, setDb] = useState<SQLJsDatabase>()
+  const [db, setDb] = useState<SQLJsDatabase<typeof schema>>()
 
   useEffect(() => {
     (async () => {try {
