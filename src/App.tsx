@@ -24,12 +24,6 @@ function App() {
     }})().catch(console.error);
   }, []);
 
-  if (!db) {
-    return <p>Loading...</p>
-  }
-
-  db.query.users.findMany().then(users => setUsers(users))
-
   return (
     <>
       <div>
@@ -42,8 +36,20 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => db.insert(users).values({name: 'John'})}>
+        <button onClick={() => {
+          db?.insert(users).values({name: 'John'});
+          console.log('add user');
+          }}>
           add user
+        </button>
+        <button onClick={() => {
+          db?.select().from(users).then(users => {
+            setUsers(users); 
+            console.log('reload users');
+            console.log(users);
+          });
+          }}>
+          reload users
         </button>
         {userList.map(user => <p key={user.id}>{user.name}</p>)}
       </div>
