@@ -1,0 +1,24 @@
+{
+    "allowAnonymousTelemetry": false,
+    "models": [
+        {
+            "title": "Groq llama3:70b",
+            "model": "llama3-70b",
+            "contextLength": 8192,
+            "apiKey": "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",
+            "provider": "groq"
+        }
+    ],
+    "tabAutocompleteModel": {
+        "title": "Codestral",
+        "provider": "mistral",
+        "model": "codestral-latest",
+        "apiKey": "EJIBxODCZyJOCAdvqSdcYOBZGlT38HjU"
+    },
+    "embeddingsProvider": {
+        "provider": "free-trial"
+    },
+    "reranker": {
+        "name": "free-trial"
+    }
+}
