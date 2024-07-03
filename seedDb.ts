@@ -47,7 +47,7 @@ export async function loadDatabase(path: string) {
 
 
 console.log("⌛ Seeding database...");
-const { db, save } = await loadDatabase("./public/sqlite.db");
+const { db, save } = await loadDatabase("./sqlite.db");
 
 await db.insert(schema.users).values({ name: "John" });
 await db.insert(schema.users).values({ name: "Jane" });
