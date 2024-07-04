@@ -1,7 +1,7 @@
 // src/App.tsx
 import React, { useState, useEffect, useRef, FormEvent } from 'react';
 import { savePassword, getPassword, clearPassword } from './utils/passwordStorage';
-import { FiPlusCircle, FiDownload, FiLogOut, FiLock } from 'react-icons/fi';
+import { FiPlusCircle, FiDownload, FiLogOut, FiLock, FiDollarSign, FiList } from 'react-icons/fi';
 import { SQLJsDatabase, drizzle } from 'drizzle-orm/sql-js';
 import * as schema from './schema';
 import { DataEntryForm } from './components/DataEntryForm';
@@ -20,6 +20,7 @@ function App() {
   const [showForm, setShowForm] = useState(false);
   const [shouldDecrypt, setShouldDecrypt] = useState(false);
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [activeTab, setActiveTab] = useState<'netWorth' | 'transactions'>('netWorth');
 
   // Function to show notification
   const showNotification = (message: string, type: 'success' | 'error') => {
@@ -268,20 +269,38 @@ function App() {
         </button>
       </div>
       {db && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="space-y-4">
-            {showForm && (
-              <DataEntryForm 
-                db={db} 
-                onDataAdded={loadChartData} 
-                showNotification={showNotification}
-              />
-            )}
-            <NetWorthGraph db={db} />
-            </div>
-          <div>
-            <TransactionAnalysis db={db} showNotification={showNotification} />
+        <div>
+          <div className="mb-4 flex border-b">
+            <button
+              className={`py-2 px-4 ${activeTab === 'netWorth' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
+              onClick={() => setActiveTab('netWorth')}
+            >
+              <FiDollarSign className="inline mr-2" />
+              Net Worth
+            </button>
+            <button
+              className={`py-2 px-4 ${activeTab === 'transactions' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
+              onClick={() => setActiveTab('transactions')}
+            >
+              <FiList className="inline mr-2" />
+              Transactions
+            </button>
           </div>
+          {activeTab === 'netWorth' && (
+            <div className="space-y-4">
+              {showForm && (
+                <DataEntryForm 
+                  db={db} 
+                  onDataAdded={loadChartData} 
+                  showNotification={showNotification}
+                />
+              )}
+              <NetWorthGraph db={db} />
+            </div>
+          )}
+          {activeTab === 'transactions' && (
+            <TransactionAnalysis db={db} showNotification={showNotification} />
+          )}
         </div>
       )}
       {notification && (
