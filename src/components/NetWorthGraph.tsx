@@ -52,7 +52,6 @@ export function NetWorthGraph({ db }: NetWorthGraphProps) {
             },
             fillGraph: true,
             height: 400,
-            title: 'Net Worth Over Time',
             titleHeight: 32,
             colors: ['#4CAF50', '#2196F3'],
             strokeWidth: 2,

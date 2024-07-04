@@ -246,13 +246,6 @@ function App() {
       <div className="mb-4 flex items-center justify-between bg-white shadow-md rounded-lg p-2">
         <div className="flex space-x-2">
           <button
-            onClick={() => setShowForm(!showForm)}
-            className="flex items-center px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors duration-200"
-          >
-            <FiPlusCircle className="mr-2" />
-            {showForm ? 'Hide Form' : 'Add Data'}
-          </button>
-          <button
             onMouseDown={handleDownload}
             className="flex items-center px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
           >
@@ -288,6 +281,16 @@ function App() {
           </div>
           {activeTab === 'netWorth' && (
             <div className="space-y-4">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold">Net Worth</h2>
+                <button
+                  onClick={() => setShowForm(!showForm)}
+                  className="flex items-center px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors duration-200"
+                >
+                  <FiPlusCircle className="mr-2" />
+                  {showForm ? 'Hide Form' : 'Add Data'}
+                </button>
+              </div>
               {showForm && (
                 <DataEntryForm 
                   db={db} 
