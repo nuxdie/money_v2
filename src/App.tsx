@@ -106,8 +106,6 @@ function App() {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-
-      alert('Database downloaded successfully!');
     } catch (error) {
       console.error('Error downloading database:', error);
       alert('Failed to download database. Please try again.');
