@@ -7,9 +7,10 @@ import { FiCalendar, FiDollarSign, FiBriefcase } from 'react-icons/fi';
 interface DataEntryFormProps {
   db: SQLJsDatabase<typeof schema>;
   onDataAdded: () => void;
+  showNotification: (message: string, type: 'success' | 'error') => void;
 }
 
-export function DataEntryForm({ db, onDataAdded }: DataEntryFormProps) {
+export function DataEntryForm({ db, onDataAdded, showNotification }: DataEntryFormProps) {
   const [date, setDate] = useState('');
   const [income, setIncome] = useState('');
   const [worth, setWorth] = useState('');
@@ -26,10 +27,10 @@ export function DataEntryForm({ db, onDataAdded }: DataEntryFormProps) {
       setDate('');
       setIncome('');
       setWorth('');
-      alert('Data added successfully!');
+      showNotification('Data added successfully!', 'success');
     } catch (error) {
       console.error('Error adding data:', error);
-      alert('Failed to add data. Please try again.');
+      showNotification('Failed to add data. Please try again.', 'error');
     }
   };
 

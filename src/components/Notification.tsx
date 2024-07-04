@@ -13,7 +13,7 @@ export const Notification: React.FC<NotificationProps> = ({ message, type, onClo
     <div className={`fixed top-4 right-4 ${bgColor} text-white p-4 rounded-md shadow-lg max-w-sm`}>
       <div className="flex justify-between items-center">
         <p>{message}</p>
-        <button onClick={onClose} className="ml-4 text-white hover:text-gray-200">
+        <button onMouseDown={onClose} className="ml-4 text-white hover:text-gray-200">
           &times;
         </button>
       </div>

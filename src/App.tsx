@@ -25,7 +25,7 @@ function App() {
   // Function to show notification
   const showNotification = (message: string, type: 'success' | 'error') => {
     setNotification({ message, type });
-    setTimeout(() => setNotification(null), 5000); // Auto-hide after 5 seconds
+    setTimeout(() => setNotification(null), 5000);
   };
 
   const initializeDb = async (decryptedData: ArrayBuffer) => {
@@ -202,7 +202,7 @@ function App() {
 
   if (!isDecrypted) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <form onSubmit={handleSubmit} className="p-8 bg-white shadow-md rounded-lg w-full max-w-md">
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login to Your Financial Dashboard</h2>
           <div className="mb-4">
@@ -242,18 +242,18 @@ function App() {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 bg-gray-50">
       <div className="mb-4 flex items-center justify-between bg-white shadow-md rounded-lg p-2">
         <div className="flex space-x-2">
           <button
-            onClick={() => setShowForm(!showForm)}
+            onMouseDown={() => setShowForm(!showForm)}
             className="flex items-center px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors duration-200"
           >
             <FiPlusCircle className="mr-2" />
             {showForm ? 'Hide Form' : 'Add Data'}
           </button>
           <button
-            onClick={handleDownload}
+            onMouseDown={handleDownload}
             className="flex items-center px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
           >
             <FiDownload className="mr-2" />
@@ -270,7 +270,11 @@ function App() {
       </div>
       {showForm && db && (
         <div className="mb-4">
-          <DataEntryForm db={db} onDataAdded={loadChartData} />
+          <DataEntryForm 
+            db={db} 
+            onDataAdded={loadChartData} 
+            showNotification={showNotification}
+          />
         </div>
       )}
       <div ref={chartRef} className="w-full h-[calc(100vh-120px)]"></div>
