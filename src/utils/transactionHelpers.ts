@@ -41,7 +41,7 @@ interface RawTransaction {
   }
   
   export function parseData(data: string[][]): Transaction[] {
-    let parsedData: RawTransaction[] = data.map(row => ({
+    const parsedData: RawTransaction[] = data.map(row => ({
       Datum: row[0],
       Tijd: row[1],
       Product: row[2],
@@ -63,8 +63,8 @@ interface RawTransaction {
       OrderID: row[18]
     }));
   
-    parsedData = addUnixtime(parsedData);
-    const typedData = addType(parsedData);
+    const parsedDataWithUnixtime = addUnixtime(parsedData);
+    const typedData = addType(parsedDataWithUnixtime);
     return typedData.sort((a, b) => a.unixtime - b.unixtime);
   }
   
@@ -89,7 +89,7 @@ interface RawTransaction {
     return groups.sort((a, b) => b.returnsRatio - a.returnsRatio);
   }
   
-  function addUnixtime(data: RawTransaction[]): RawTransaction[] {
+  function addUnixtime(data: RawTransaction[]): (RawTransaction & { unixtime: number })[] {
     return data.map(datum => {
       const [DD, MM, YYYY] = datum.Datum.split('-');
       const [HH, mm] = datum.Tijd.split(':');
@@ -109,5 +109,13 @@ interface RawTransaction {
   }
   
   function sumField(field: keyof Transaction) {
-    return (sum: number, item: Transaction) => sum + item[field];
+    return (sum: number, item: Transaction) => {
+      if (item[field] === null) return sum
+      if (item[field] === undefined) return sum
+      if (item[field] === 0) return sum
+      if (typeof item[field] === 'number') return sum + item[field]
+      if (typeof item[field] === 'string')
+        return item[field].trim() === '' ? sum : sum + parseFloat(item[field])
+      return sum + item[field]
+    }
   }
