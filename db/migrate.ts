@@ -31,7 +31,7 @@ async function loadDatabase(path: string) {
 
 async function main() {
   console.log('Running migrations...');
-  const { db, save, database, shouldInit } = await loadDatabase("./db/sqlite.db");
+  const { save, database, shouldInit } = await loadDatabase("./db/sqlite.db");
 
   if (shouldInit) {
     console.log('Initializing database...');
