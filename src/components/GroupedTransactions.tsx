@@ -2,9 +2,10 @@
 import React from 'react';
 import { TransactionsTable } from './TransactionsTable';
 import { UplotChart } from './UplotChart';
+import { GroupedTransactions as GroupedTransactionsType, Transaction } from '../utils/transactionHelpers';
 
 interface GroupedTransactionsProps {
-  groupedData: any[];
+  groupedData: GroupedTransactionsType[];
 }
 
 export function GroupedTransactions({ groupedData }: GroupedTransactionsProps) {
@@ -44,7 +45,7 @@ export function GroupedTransactions({ groupedData }: GroupedTransactionsProps) {
           </div>
           <div>
             <h5 className="font-semibold mb-2">Transactions</h5>
-            <TransactionsTable 
+            <TransactionsTable<Transaction>
               headers={['Datum', 'Tijd', 'Aantal', 'Koers', 'KoersValuta', 'Waarde', 'WaardeValuta', 'Totaal', 'TotaalValuta']}
               data={group.transactions}
             />
@@ -55,18 +56,19 @@ export function GroupedTransactions({ groupedData }: GroupedTransactionsProps) {
   );
 }
 
-function convertData(transactions: any[]) {
-  return transactions.reduce((memo: number[][], { Datum, Tijd, Koers, Aantal }) => {
-    if (memo.length === 0) {
-      memo.push([], []);
+function convertData(transactions: Transaction[]): [number[], number[]] {
+  return transactions.reduce((memo: [number[], number[]], { Datum, Tijd, Koers }) => {
+    if (memo[0].length === 0) {
+      memo = [[], []];
     }
 
-    const _dateString = `${Datum.split('-').reverse().join('-')}T${Tijd}`;
+    const [day, month, year] = Datum.split('-');
+    const _dateString = `${year}-${month}-${day}T${Tijd}`;
     const _date = Math.floor(Date.parse(_dateString) / 1000);
 
     memo[0].push(_date);
     memo[1].push(Koers);
 
     return memo;
-  }, []);
+  }, [[], []]);
 }
