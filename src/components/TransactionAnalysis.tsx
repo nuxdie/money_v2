@@ -4,30 +4,35 @@ import { SQLJsDatabase } from 'drizzle-orm/sql-js';
 import * as schema from '../schema';
 import { TransactionsTable } from './TransactionsTable';
 import { GroupedTransactions } from './GroupedTransactions';
-import { parseData, groupBy, GroupedTransactions as GroupedTransactionsType } from '../utils/transactionHelpers';
+import { 
+  parseData, 
+  groupBy, 
+  Transaction, 
+  GroupedTransactions as GroupedTransactionsType 
+} from '../utils/transactionHelpers';
 
 interface TransactionAnalysisProps {
   db: SQLJsDatabase<typeof schema>;
   showNotification: (message: string, type: 'success' | 'error') => void;
 }
 
-export function TransactionAnalysis({ db, showNotification }: TransactionAnalysisProps) {
-  const [totalsData, setTotalsData] = useState<any[]>([]);
-  const [groupedByIsin, setGroupedByIsin] = useState<any[]>([]);
+export function TransactionAnalysis({ showNotification }: TransactionAnalysisProps) {
+  const [totalsData, setTotalsData] = useState<GroupedTransactionsType[]>([]);
+  const [groupedByIsin, setGroupedByIsin] = useState<GroupedTransactionsType[]>([]);
   const [dataProcessed, setDataProcessed] = useState(false);
-
+  
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-
+  
     try {
       const text = await file.text();
       const rows = text.split('\n').filter(row => row.trim());
-      const [header, ...dataRows] = rows;
-
-      const parsedData = parseData(dataRows.map(row => row.split(',')));
-      const groupedData = groupBy(parsedData, 'ISIN');
-
+      const dataRows = rows.slice(1);
+  
+      const parsedData: Transaction[] = parseData(dataRows.map(row => row.split(',')));
+      const groupedData: GroupedTransactionsType[] = groupBy(parsedData, 'ISIN');
+  
       setTotalsData(groupedData);
       setGroupedByIsin(groupedData);
       setDataProcessed(true);
