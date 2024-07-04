@@ -4,6 +4,8 @@ import Dygraph from 'dygraphs';
 import { SQLJsDatabase, drizzle } from 'drizzle-orm/sql-js';
 import * as schema from './schema';
 import { DataEntryForm } from './components/DataEntryForm';
+import { encryptDatabase } from './utils/encryption';
+import { BaseSQLiteDatabase } from 'drizzle-orm/sqlite-core';
 
 const { financialData } = schema;
 
@@ -74,6 +76,34 @@ function App() {
       alert('Decryption failed. Please check your password.');
     }
   }
+
+  const handleDownload = async () => {
+    if (!db) return;
+
+    try {
+      // Export the database
+      const exportedData = (db as any).session.client.export();
+
+      // Encrypt the database
+      const encryptedData = await encryptDatabase(exportedData, password);
+
+      // Create a Blob and download link
+      const blob = new Blob([encryptedData], { type: 'application/octet-stream' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'encrypted-sqlite.db';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      alert('Database downloaded successfully!');
+    } catch (error) {
+      console.error('Error downloading database:', error);
+      alert('Failed to download database. Please try again.');
+    }
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -154,12 +184,18 @@ function App() {
 
   return (
     <div className="p-4">
-      <div className="mb-4">
+      <div className="mb-4 flex space-x-4">
         <button
           onClick={() => setShowForm(!showForm)}
           className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
         >
           {showForm ? 'Hide Form' : 'Add New Data'}
+        </button>
+        <button
+          onClick={handleDownload}
+          className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Download Encrypted Database
         </button>
       </div>
       {showForm && db && (
