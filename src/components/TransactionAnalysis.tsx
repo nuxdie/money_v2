@@ -44,18 +44,19 @@ export function TransactionAnalysis({ showNotification }: TransactionAnalysisPro
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4">
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">Transaction Analysis</h2>
+    <div className="bg-white shadow-lg rounded-lg p-6 transition-all hover:shadow-xl">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">Transaction Analysis</h2>
       <input
         type="file"
         accept=".csv"
         onChange={handleFileUpload}
-        className="mb-4 block w-full text-sm text-gray-500
+        className="mb-6 block w-full text-sm text-gray-500
           file:mr-4 file:py-2 file:px-4
           file:rounded-full file:border-0
           file:text-sm file:font-semibold
           file:bg-blue-50 file:text-blue-700
-          hover:file:bg-blue-100"
+          hover:file:bg-blue-100
+          transition-all"
       />
       {dataProcessed && (
         <>

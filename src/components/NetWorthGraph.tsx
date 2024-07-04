@@ -64,7 +64,8 @@ export function NetWorthGraph({ db, dataVersion }: NetWorthGraphProps) {
   }, [loadChartData, dataVersion]);
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-4">
+    <div className="bg-white shadow-lg rounded-lg p-6 transition-all hover:shadow-xl">
+      <h2 className="text-2xl font-bold mb-4 text-gray-800">Net Worth Over Time</h2>
       <div ref={chartRef} className="w-full h-[400px]"></div>
     </div>
   );
