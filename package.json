@@ -17,6 +17,7 @@
     "dygraphs": "^2.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.2.1",
     "sql.js": "^1.10.3"
   },
   "peerDependencies": {
