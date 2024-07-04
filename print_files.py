@@ -89,6 +89,8 @@ if __name__ == "__main__":
         "*.py",
         "*.lock",
         "*.lockb",
+        "*.db",
+        "*.wasm",
         "*.png",
         "*.jpg",
         "*.jpeg",
