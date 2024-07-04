@@ -21,6 +21,7 @@ function App() {
   const [shouldDecrypt, setShouldDecrypt] = useState(false);
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [activeTab, setActiveTab] = useState<'netWorth' | 'transactions'>('netWorth');
+  const [dataVersion, setDataVersion] = useState(0);
 
   // Function to show notification
   const showNotification = (message: string, type: 'success' | 'error') => {
@@ -151,6 +152,11 @@ function App() {
     setPassword('');
     setDb(undefined);
   }
+
+  const handleDataAdded = async () => {
+    await loadChartData();
+    setDataVersion(prev => prev + 1);
+  };
 
   const loadChartData = async () => {
     if (db && chartRef.current) {
@@ -292,13 +298,13 @@ function App() {
                 </button>
               </div>
               {showForm && (
-                <DataEntryForm 
-                  db={db} 
-                  onDataAdded={loadChartData} 
+                <DataEntryForm
+                  db={db}
+                  onDataAdded={handleDataAdded}
                   showNotification={showNotification}
                 />
               )}
-              <NetWorthGraph db={db} />
+              <NetWorthGraph db={db} dataVersion={dataVersion} />
             </div>
           )}
           {activeTab === 'transactions' && (

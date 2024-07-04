@@ -6,15 +6,16 @@ import Dygraph from 'dygraphs';
 
 interface NetWorthGraphProps {
   db: SQLJsDatabase<typeof schema>;
+  dataVersion: number;
 }
 
-export function NetWorthGraph({ db }: NetWorthGraphProps) {
+export function NetWorthGraph({ db, dataVersion }: NetWorthGraphProps) {
   const chartRef = useRef<HTMLDivElement>(null);
   const graphRef = useRef<Dygraph | null>(null);
 
   useEffect(() => {
     loadChartData();
-  }, [db]);
+  }, [db, dataVersion]);
 
   const loadChartData = async () => {
     if (db && chartRef.current) {
@@ -64,8 +65,7 @@ export function NetWorthGraph({ db }: NetWorthGraphProps) {
 
   return (
     <div className="bg-white shadow-md rounded-lg p-4">
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">Net Worth Graph</h2>
-      <div ref={chartRef} className="w-full h-[300px] md:h-[400px]"></div>
+      <div ref={chartRef} className="w-full h-[400px]"></div>
     </div>
   );
 }
