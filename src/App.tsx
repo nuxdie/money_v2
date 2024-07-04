@@ -1,5 +1,4 @@
 import { useState, useEffect, FormEvent } from 'react'
-import './App.css'
 import { SQLJsDatabase, drizzle } from 'drizzle-orm/sql-js';
 import * as schema from './schema.ts';
 
@@ -87,28 +86,39 @@ function App() {
 
   if (!isDecrypted) {
     return (
-      <div>
-        <form onSubmit={handleSubmit}>
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <form onSubmit={handleSubmit} className="p-8 bg-white shadow-md rounded-lg">
           <input 
             type="password" 
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             placeholder="Enter password"
+            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button type="submit">Decrypt Database</button>
+          <button 
+            type="submit" 
+            className="w-full mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            Decrypt Database
+          </button>
         </form>
       </div>
     )
   }
 
   return (
-    <>
-      <div className="card">
-        <ul>
-          {userList.map(user => <li key={user.id}>{user.name}</li>)}
+    <div className="container mx-auto p-4">
+      <div className="bg-white shadow-md rounded-lg p-6">
+        <h2 className="text-2xl font-bold mb-4">User List</h2>
+        <ul className="space-y-2">
+          {userList.map(user => (
+            <li key={user.id} className="bg-gray-100 p-2 rounded">
+              {user.name}
+            </li>
+          ))}
         </ul>
       </div>
-    </>
+    </div>
   )
 }
 
