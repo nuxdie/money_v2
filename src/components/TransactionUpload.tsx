@@ -25,13 +25,12 @@ export function TransactionUpload({ db, onDataProcessed, showNotification }: Tra
       showNotification('Please select a file', 'error');
       return;
     }
-
+  
     const text = await file.text();
     const rows = text.split('\n').filter(row => row.trim());
-    const [header, ...dataRows] = rows;
-
+    const dataRows = rows.slice(1);  // Skip the header row
+  
     // Process the CSV data here
-    // This is a simplified example, you'll need to adapt it to your specific CSV structure
     const processedData = dataRows.map(row => {
       const columns = row.split(',');
       return {
@@ -41,7 +40,7 @@ export function TransactionUpload({ db, onDataProcessed, showNotification }: Tra
         // Add more fields as needed
       };
     });
-
+  
     // Insert processed data into the database
     try {
       for (const data of processedData) {
