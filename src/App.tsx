@@ -6,6 +6,7 @@ import { SQLJsDatabase, drizzle } from 'drizzle-orm/sql-js';
 import * as schema from './schema';
 import { DataEntryForm } from './components/DataEntryForm';
 import { encryptDatabase } from './utils/encryption';
+import { Notification } from './components/Notification';
 
 const { financialData } = schema;
 
@@ -17,6 +18,13 @@ function App() {
   const graphRef = useRef<Dygraph | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [shouldDecrypt, setShouldDecrypt] = useState(false);
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  // Function to show notification
+  const showNotification = (message: string, type: 'success' | 'error') => {
+    setNotification({ message, type });
+    setTimeout(() => setNotification(null), 5000); // Auto-hide after 5 seconds
+  };
 
   const initializeDb = async (decryptedData: ArrayBuffer) => {
     const SQL = await window.initSqlJs({
@@ -72,10 +80,11 @@ function App() {
       );
 
       await initializeDb(decryptedContent);
+      showNotification('Decryption successful!', 'success');
     } catch (error) {
       console.error('Decryption failed:', error);
-      alert('Decryption failed. Please check your password.');
-      setShouldDecrypt(false);  // Reset shouldDecrypt on failure
+      showNotification('Decryption failed. Please check your password.', 'error');
+      setShouldDecrypt(false);
     }
   }
 
@@ -106,9 +115,10 @@ function App() {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
+      showNotification('Database downloaded successfully!', 'success');
     } catch (error) {
       console.error('Error downloading database:', error);
-      alert('Failed to download database. Please try again.');
+      showNotification('Failed to download database. Please try again.', 'error');
     }
   };
 
@@ -208,6 +218,13 @@ function App() {
             Enter
           </button>
         </form>
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
       </div>
     )
   }
@@ -240,6 +257,13 @@ function App() {
         </div>
       )}
       <div ref={chartRef} className="w-full h-[calc(100vh-120px)]"></div>
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </div>
   );
 }
