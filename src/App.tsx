@@ -1,5 +1,5 @@
 // src/App.tsx
-import React, { useState, useEffect, useRef, FormEvent } from 'react';
+import { useState, useEffect, FormEvent, useCallback } from 'react';
 import { savePassword, getPassword, clearPassword } from './utils/passwordStorage';
 import { FiPlusCircle, FiDownload, FiLogOut, FiLock, FiDollarSign, FiList } from 'react-icons/fi';
 import { SQLJsDatabase, drizzle } from 'drizzle-orm/sql-js';
@@ -9,14 +9,11 @@ import { encryptDatabase } from './utils/encryption';
 import { Notification } from './components/Notification';
 import { NetWorthGraph } from './components/NetWorthGraph';
 import { TransactionAnalysis } from './components/TransactionAnalysis';
-import Dygraph from 'dygraphs';
 
 function App() {
   const [db, setDb] = useState<SQLJsDatabase<typeof schema>>();
   const [password, setPassword] = useState('');
   const [isDecrypted, setIsDecrypted] = useState(false);
-  const chartRef = useRef<HTMLDivElement>(null);
-  const graphRef = useRef<Dygraph | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [shouldDecrypt, setShouldDecrypt] = useState(false);
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -24,21 +21,21 @@ function App() {
   const [dataVersion, setDataVersion] = useState(0);
 
   // Function to show notification
-  const showNotification = (message: string, type: 'success' | 'error') => {
+  const showNotification = useCallback((message: string, type: 'success' | 'error') => {
     setNotification({ message, type });
     setTimeout(() => setNotification(null), 5000);
-  };
+  }, []);
 
-  const initializeDb = async (decryptedData: ArrayBuffer) => {
+  const initializeDb = useCallback(async (decryptedData: ArrayBuffer) => {
     const SQL = await window.initSqlJs({
       locateFile: (file: string) => `/${file}`,
     });
     const sqldb = new SQL.Database(new Uint8Array(decryptedData));
     setDb(drizzle(sqldb, { schema }));
     setIsDecrypted(true);
-  }
+  }, []);
 
-  const deriveKey = async (password: string, salt: ArrayBuffer) => {
+  const deriveKey = useCallback(async (password: string, salt: ArrayBuffer) => {
     const enc = new TextEncoder();
     const keyMaterial = await window.crypto.subtle.importKey(
       "raw",
@@ -59,9 +56,9 @@ function App() {
       true,
       ["encrypt", "decrypt"]
     );
-  }
+  }, []);
 
-  const handleDecrypt = async () => {
+  const handleDecrypt = useCallback(async () => {
     try {
       const response = await fetch('/encrypted-sqlite.db');
       const encryptedData = await response.arrayBuffer();
@@ -89,7 +86,7 @@ function App() {
       showNotification('Decryption failed. Please check your password.', 'error');
       setShouldDecrypt(false);
     }
-  }
+  }, [password, showNotification, initializeDb, deriveKey]);
 
   interface Database {
     session: {
@@ -144,7 +141,7 @@ function App() {
       handleDecrypt();
       setShouldDecrypt(false);
     }
-  }, [shouldDecrypt, password]);
+  }, [shouldDecrypt, password, handleDecrypt]);
 
   const handleLogout = () => {
     clearPassword();
@@ -153,58 +150,9 @@ function App() {
     setDb(undefined);
   }
 
-  const handleDataAdded = async () => {
-    await loadChartData();
+  const handleDataAdded = () => {
     setDataVersion(prev => prev + 1);
   };
-
-  const loadChartData = async () => {
-    if (db && chartRef.current) {
-      const data = await db.select().from(schema.financialData).orderBy(schema.financialData.date);
-      const chartData = data.map(row => [
-        new Date(row.date!),
-        row.income,
-        row.worth
-      ]);
-
-      if (graphRef.current) {
-        graphRef.current.updateOptions({ file: chartData });
-      } else {
-        graphRef.current = new Dygraph(
-          chartRef.current,
-          chartData,
-          {
-            labels: ['Date', 'Income', 'Worth'],
-            series: {
-              'Income': {
-                axis: 'y2'
-              },
-              'Worth': {
-                axis: 'y2'
-              },
-            },
-            axes: {
-              y: {
-                independentTicks: false
-              },
-              y2: {
-                labelsKMB: true,
-                independentTicks: true
-              }
-            },
-            fillGraph: true,
-            height: window.innerHeight - 120,
-          }
-        );
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (db && isDecrypted) {
-      loadChartData();
-    }
-  }, [db, isDecrypted]);
 
   if (!isDecrypted) {
     return (
