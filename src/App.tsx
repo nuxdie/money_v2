@@ -1,7 +1,7 @@
 // src/App.tsx
 import { useState, useEffect, FormEvent, useCallback } from 'react';
 import { savePassword, getPassword, clearPassword } from './utils/passwordStorage';
-import { FiPlusCircle, FiDownload, FiLogOut, FiLock, FiDollarSign, FiList } from 'react-icons/fi';
+import { FiPlusCircle, FiDownload, FiLogOut, FiLock, FiDollarSign, FiList, FiGithub } from 'react-icons/fi';
 import { SQLJsDatabase, drizzle } from 'drizzle-orm/sql-js';
 import * as schema from './schema';
 import { DataEntryForm } from './components/DataEntryForm';
@@ -200,6 +200,15 @@ function App() {
       <div className="mb-4 flex items-center justify-between bg-white shadow-lg rounded-lg p-4">
         <h1 className="text-2xl font-bold text-gray-800">Financial Dashboard</h1>
         <div className="flex space-x-2">
+          <a
+            href="https://github.com/WiegerWolf/money_v2"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all hover:scale-105"
+          >
+            <FiGithub className="mr-2" />
+            GitHub
+          </a>
           <button
             onMouseDown={handleDownload}
             className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all hover:scale-105"
