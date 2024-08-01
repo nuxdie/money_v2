@@ -19,6 +19,7 @@ function App() {
   const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [activeTab, setActiveTab] = useState<'netWorth' | 'transactions'>('netWorth');
   const [dataVersion, setDataVersion] = useState(0);
+  const [showUpdateReminder, setShowUpdateReminder] = useState(false);
 
   // Function to show notification
   const showNotification = useCallback((message: string, type: 'success' | 'error') => {
@@ -152,6 +153,7 @@ function App() {
 
   const handleDataAdded = () => {
     setDataVersion(prev => prev + 1);
+    setShowUpdateReminder(true);
   };
 
   if (!isDecrypted) {
@@ -268,6 +270,18 @@ function App() {
           {activeTab === 'transactions' && (
             <TransactionAnalysis db={db} showNotification={showNotification} />
           )}
+        </div>
+      )}
+      {showUpdateReminder && (
+        <div className="fixed bottom-4 right-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded shadow-lg">
+          <p className="font-bold">Reminder:</p>
+          <p>New data has been added. Remember to update the DB in the repository.</p>
+          <button
+            onClick={() => setShowUpdateReminder(false)}
+            className="mt-2 px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+          >
+            Dismiss
+          </button>
         </div>
       )}
       {notification && (

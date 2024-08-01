@@ -34,7 +34,7 @@ export function DataEntryForm({ db, onDataAdded, showNotification }: DataEntryFo
       setDate(new Date());
       setIncome('');
       setWorth('');
-      showNotification('Data added successfully!', 'success');
+      showNotification('Data added successfully! Remember to update the DB in the repository.', 'success');
     } catch (error) {
       console.error('Error adding data:', error);
       showNotification('Failed to add data. Please try again.', 'error');
