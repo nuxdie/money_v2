@@ -1,30 +1,27 @@
-# React + TypeScript + Vite
+# Financial Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A secure, client-side financial dashboard for tracking net worth and analyzing transactions.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Encrypted local database storage
+- Net worth tracking over time
+- Transaction analysis and visualization
+- Secure password-based access
+- CSV transaction import
+- Interactive charts and graphs
 
-## Expanding the ESLint configuration
+## Usage
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Set up a password for encrypting your financial data.
+2. Add financial data manually or import transactions from a CSV file.
+3. View your net worth graph and analyze your transactions.
+4. Download the encrypted database for backup or transferring to another device.
 
-- Configure the top-level `parserOptions` property like this:
+## Security
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+This application uses client-side encryption to secure your financial data. The database is encrypted using AES-GCM with a key derived from your password using PBKDF2. No financial data is ever sent to a server.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Disclaimer
+
+This software is for educational and personal use only. Always consult with a qualified financial advisor before making any financial decisions. The authors and contributors of this project are not responsible for any financial losses or damages resulting from the use of this software.
