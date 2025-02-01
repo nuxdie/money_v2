@@ -200,7 +200,10 @@ function App() {
   return (
     <div className="p-4 bg-gray-50 min-h-screen">
       <div className="mb-4 flex items-center justify-between bg-white shadow-lg rounded-lg p-4">
-        <h1 className="text-2xl font-bold text-gray-800">Financial Dashboard</h1>
+        <div className="flex items-center">
+          <img src="/broccori.png" alt="Broccori Logo" className="h-8 w-8 mr-2" />
+          <h1 className="text-2xl font-bold text-gray-800">Financial Broccori</h1>
+        </div>
         <div className="flex space-x-2">
           <a
             href="https://github.com/WiegerWolf/money_v2"
