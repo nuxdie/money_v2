@@ -9,6 +9,7 @@ import { encryptDatabase } from './utils/encryption';
 import { Notification } from './components/Notification';
 import { NetWorthGraph } from './components/NetWorthGraph';
 import { TransactionAnalysis } from './components/TransactionAnalysis';
+import ThemeSwitcher from './components/ThemeSwitcher'; // Added ThemeSwitcher import
 
 function App() {
   const [db, setDb] = useState<SQLJsDatabase<typeof schema>>();
@@ -201,6 +202,7 @@ function App() {
 
   return (
     <div className="p-4 bg-gray-50 min-h-screen">
+      <ThemeSwitcher /> {/* Added ThemeSwitcher component */}
       <div className="mb-4 flex flex-col sm:flex-row items-center justify-between bg-white shadow-lg rounded-lg p-4">
         <div className="flex items-center mb-4 sm:mb-0">
           <img src="/broccori.png" alt="Broccori Logo" className="h-8 w-8 mr-2" />
