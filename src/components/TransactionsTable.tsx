@@ -40,7 +40,7 @@ export function TransactionsTable<T extends TableData>({
   }, [data, sortColumn, sortDirection]);
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto bg-theme-card shadow-cyber-shadow rounded-lg p-4">
       <table className="min-w-full divide-y divide-theme-secondary-1">
         <thead className="bg-theme-secondary-2 text-theme-text">
           <tr>
@@ -63,7 +63,7 @@ export function TransactionsTable<T extends TableData>({
         </thead>
         <tbody className="bg-theme-bg divide-y divide-theme-secondary-1 text-theme-text">
           {sortedData.map((row, index) => (
-            <tr key={index} className={`${row.className || ''} hover:bg-theme-secondary-1`}>
+            <tr key={index} className={`${row.className || ''} hover:bg-theme-secondary-2`}>
               {showHref && (
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-theme-primary hover:text-theme-primary-hover">
                   <a href={`#${row.id}`}>#</a>

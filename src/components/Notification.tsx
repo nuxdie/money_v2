@@ -45,7 +45,7 @@ export const Notification: React.FC<NotificationProps> = ({ message, type, onClo
   }
 
   return (
-    <div className={`fixed top-4 right-4 ${bgColor} ${textColor} p-4 rounded-md shadow-lg max-w-md`}>
+    <div className={`fixed top-4 right-4 ${bgColor} ${textColor} p-4 rounded-md shadow-cyber-shadow max-w-md`}>
       <div className="flex flex-col">
         <div className="flex justify-between items-start">
           <p className={`flex-grow mr-2 ${textColor}`}>{message}</p>
@@ -57,7 +57,13 @@ export const Notification: React.FC<NotificationProps> = ({ message, type, onClo
           <div className={`mt-2 pt-2 border-t ${borderColor}/50 flex justify-end`}>
             <button
               onMouseDown={onAction}
-              className={`px-3 py-1 bg-transparent border ${borderColor} ${textColor} ${buttonHoverBg} text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-${borderColor}/50`}
+              className={`px-3 py-1 bg-transparent border ${borderColor} ${textColor} ${buttonHoverBg} text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50 ${
+                type === 'success' ? 'focus:ring-theme-success-text' :
+                type === 'error' ? 'focus:ring-theme-danger-text' :
+                type === 'info' ? 'focus:ring-theme-info-text' :
+                type === 'warning' ? 'focus:ring-theme-warning-text' :
+                'focus:ring-theme-primary-accent1' // Default focus ring
+              }`}
             >
               {actionText}
             </button>

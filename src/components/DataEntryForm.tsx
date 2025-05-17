@@ -93,7 +93,7 @@ export function DataEntryForm({ db, onDataAdded, showNotification, handleDownloa
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-6 bg-theme-card shadow-lg rounded-lg transition-all hover:shadow-xl">
+    <form onSubmit={handleSubmit} className="p-6 bg-theme-card shadow-cyber-shadow rounded-lg transition-all hover:shadow-xl">
       <h2 className="text-2xl font-bold mb-6 text-theme-text">Add Financial Data</h2>
       <div className="flex flex-col md:flex-row md:items-end md:space-x-4">
         <div className="mb-4 md:mb-0 md:flex-1">
@@ -157,7 +157,7 @@ export function DataEntryForm({ db, onDataAdded, showNotification, handleDownloa
         <div className="md:ml-4">
           <button
             type="submit"
-            className="w-full md:w-auto px-6 py-2 bg-theme-success text-white rounded-md hover:bg-theme-success-hover focus:outline-none focus:ring-2 focus:ring-theme-success transition-all hover:scale-105"
+            className="btn-primary w-full md:w-auto px-6 py-2" // Replaced with btn-primary and removed redundant Tailwind classes
           >
             Add Data
           </button>

@@ -265,11 +265,11 @@ function App() {
                 <h2 className="text-2xl font-bold">Net Worth</h2>
                 <button
                   onClick={() => setShowForm(!showForm)}
-                  className={`flex items-center px-3 py-2 ${
+                  className={`flex items-center px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-theme-primary-accent3 transition-colors duration-200 ${
                     showForm
-                      ? 'border-2 border-theme-success text-theme-success hover:bg-theme-success-hover'
-                      : 'bg-theme-success text-white hover:bg-theme-success-hover'
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-theme-success transition-colors duration-200`}
+                      ? 'border-2 border-theme-primary-accent3 text-theme-primary-accent3 hover:bg-theme-primary-accent3 hover:text-button-primary-text' // Use primary-accent3 for border and text, hover to fill
+                      : 'btn-primary' // Use btn-primary for "Add Data" state, which uses primary-accent1
+                  }`}
                 >
                   <FiPlusCircle className="mr-2" />
                   {showForm ? 'Hide Form' : 'Add Data'}
