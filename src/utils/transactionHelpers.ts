@@ -119,3 +119,20 @@ interface RawTransaction {
       return sum + (item[field] as number);
     }
   }
+import { evaluate } from 'mathjs';
+
+export function evaluateMathExpression(expression: string): number | null {
+  if (expression === null || typeof expression === 'undefined' || expression.trim() === '') {
+    return null;
+  }
+  try {
+    const result = evaluate(expression);
+    if (typeof result === 'number' && !isNaN(result)) {
+      return result;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error evaluating math expression:", error);
+    return null;
+  }
+}
