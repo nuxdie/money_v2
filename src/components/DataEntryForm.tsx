@@ -4,7 +4,8 @@ import * as schema from '../schema';
 import { FiCalendar, FiDollarSign, FiBriefcase } from 'react-icons/fi';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import CurrencyInput from 'react-currency-input-field';
+// import CurrencyInput from 'react-currency-input-field'; // Removed as per plan
+import { evaluateMathExpression } from '../utils/transactionHelpers';
 
 interface DataEntryFormProps {
   db: SQLJsDatabase<typeof schema>;
@@ -14,8 +15,17 @@ interface DataEntryFormProps {
 
 export function DataEntryForm({ db, onDataAdded, showNotification }: DataEntryFormProps) {
   const [date, setDate] = useState<Date | null>(new Date());
-  const [income, setIncome] = useState('');
-  const [worth, setWorth] = useState('');
+  const [income, setIncome] = useState(''); // Stores raw string input
+  const [worth, setWorth] = useState(''); // Stores raw string input
+
+  const handleBlur = (field: 'income' | 'worth', value: string) => {
+    const result = evaluateMathExpression(value);
+    if (value.trim() !== '' && result === null) {
+      showNotification(`Invalid expression in ${field} field.`, 'error');
+    }
+    // Optionally, update a display state here if needed
+    // For now, the input field continues to show the raw expression
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,12 +33,25 @@ export function DataEntryForm({ db, onDataAdded, showNotification }: DataEntryFo
       showNotification('Please select a date.', 'error');
       return;
     }
+
+    const calculatedIncome = evaluateMathExpression(income);
+    const calculatedWorth = evaluateMathExpression(worth);
+
+    if (income.trim() !== '' && calculatedIncome === null) {
+      showNotification('Please enter a valid number or expression for income.', 'error');
+      return;
+    }
+    if (worth.trim() !== '' && calculatedWorth === null) {
+      showNotification('Please enter a valid number or expression for net worth.', 'error');
+      return;
+    }
+
     try {
       const formattedDate = date.toISOString().split('T')[0];
       await db.insert(schema.financialData).values({
         date: formattedDate,
-        income: income ? parseFloat(income.replace(/[^0-9.-]+/g, '')) : null,
-        worth: worth ? parseFloat(worth.replace(/[^0-9.-]+/g, '')) : null,
+        income: calculatedIncome, // Use evaluated number
+        worth: calculatedWorth,   // Use evaluated number
       });
       onDataAdded();
       setDate(new Date());
@@ -61,37 +84,33 @@ export function DataEntryForm({ db, onDataAdded, showNotification }: DataEntryFo
         </div>
         <div className="mb-4 md:mb-0 md:flex-1">
           <label htmlFor="income" className="block text-sm font-medium text-gray-700 mb-1">Income</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FiDollarSign className="text-gray-400" />
-            </div>
-            <CurrencyInput
+          <div className="relative flex items-center">
+            <span className="absolute left-3 text-gray-400">$</span>
+            <input
+              type="text"
               id="income"
               name="income"
-              placeholder="Enter income"
+              placeholder="Enter income (e.g., 150+25)"
               value={income}
-              onValueChange={(value) => setIncome(value || '')}
-              prefix="$"
-              decimalsLimit={2}
-              className="pl-10 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              onChange={(e) => setIncome(e.target.value)}
+              onBlur={() => handleBlur('income', income)}
+              className="pl-8 pr-3 py-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
         </div>
         <div className="mb-6 md:mb-0 md:flex-1">
           <label htmlFor="worth" className="block text-sm font-medium text-gray-700 mb-1">Net Worth</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FiBriefcase className="text-gray-400" />
-            </div>
-            <CurrencyInput
+          <div className="relative flex items-center">
+            <span className="absolute left-3 text-gray-400">$</span>
+            <input
+              type="text"
               id="worth"
               name="worth"
-              placeholder="Enter net worth"
+              placeholder="Enter net worth (e.g., 1000*1.05)"
               value={worth}
-              onValueChange={(value) => setWorth(value || '')}
-              prefix="$"
-              decimalsLimit={2}
-              className="pl-10 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              onChange={(e) => setWorth(e.target.value)}
+              onBlur={() => handleBlur('worth', worth)}
+              className="pl-8 pr-3 py-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />
           </div>
         </div>
