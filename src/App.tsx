@@ -204,7 +204,14 @@ function App() {
       <div className="mb-4 flex flex-col sm:flex-row items-center justify-between bg-white shadow-lg rounded-lg p-4">
         <div className="flex items-center mb-4 sm:mb-0">
           <img src="/broccori.png" alt="Broccori Logo" className="h-8 w-8 mr-2" />
-          <h1 className="text-2xl font-bold text-gray-800">Financial Broccori</h1>
+          <div>
+            <h1 className="block text-3xl font-bold text-gray-900">
+              ファイナンシャル ブロッコリー
+            </h1>
+            <span className="block text-sm text-gray-500 mt-1">
+              [Fah-ee-nah-n-shah-ru Bu-ro-kko-ree]
+            </span>
+          </div>
         </div>
         <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
           <a
