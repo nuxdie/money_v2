@@ -7,7 +7,7 @@ import * as schema from '../schema';
 interface TransactionUploadProps {
   db: SQLJsDatabase<typeof schema>;
   onDataProcessed: () => void;
-  showNotification: (message: string, type: 'success' | 'error') => void;
+  showNotification: (message: string, type: 'success' | 'error' | 'info' | 'warning') => void;
 }
 
 export function TransactionUpload({ db, onDataProcessed, showNotification }: TransactionUploadProps) {
@@ -22,7 +22,7 @@ export function TransactionUpload({ db, onDataProcessed, showNotification }: Tra
 
   const processFile = async () => {
     if (!file) {
-      showNotification('Please select a file', 'error');
+      showNotification('Please select a file', 'warning'); // Changed to warning for better semantics
       return;
     }
   
@@ -59,28 +59,36 @@ export function TransactionUpload({ db, onDataProcessed, showNotification }: Tra
   };
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Upload Transactions</h2>
-      <div className="mb-4">
-        <label htmlFor="csvFile" className="block text-sm font-medium text-gray-700 mb-1">
+    <div className="p-6 bg-theme-card shadow-md rounded-lg">
+      <h2 className="text-2xl font-bold mb-6 text-theme-text">Upload Transactions</h2>
+      <div className="mb-6"> {/* Increased bottom margin for spacing */}
+        <label htmlFor="csvFile" className="block text-sm font-medium text-theme-text-secondary mb-1">
           Select CSV file:
         </label>
-        <input
-          type="file"
-          id="csvFile"
-          accept=".csv"
-          onChange={handleFileChange}
-          className="block w-full text-sm text-gray-500
-            file:mr-4 file:py-2 file:px-4
-            file:rounded-full file:border-0
-            file:text-sm file:font-semibold
-            file:bg-blue-50 file:text-blue-700
-            hover:file:bg-blue-100"
-        />
+        <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-theme-secondary-1 border-dashed rounded-md bg-theme-secondary-2 hover:border-theme-primary-accent1 transition-colors">
+          <div className="space-y-1 text-center">
+            <FiUpload className="mx-auto h-12 w-12 text-theme-text-secondary" />
+            <div className="flex text-sm text-theme-text-secondary">
+              <label
+                htmlFor="csvFile"
+                className="relative cursor-pointer bg-theme-card rounded-md font-medium text-theme-primary-accent1 hover:text-theme-primary-accent2 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-theme-primary-accent1"
+              >
+                <span>Upload a file</span>
+                <input id="csvFile" name="csvFile" type="file" className="sr-only" accept=".csv" onChange={handleFileChange} />
+              </label>
+              <p className="pl-1">or drag and drop</p>
+            </div>
+            <p className="text-xs text-theme-text-secondary">
+              CSV up to 10MB
+            </p>
+            {file && <p className="text-sm text-theme-success-text mt-2">Selected: {file.name}</p>}
+          </div>
+        </div>
       </div>
       <button
         onClick={processFile}
-        className="flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+        disabled={!file}
+        className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <FiUpload className="mr-2" />
         Process File

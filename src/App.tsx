@@ -17,13 +17,13 @@ function App() {
   const [isDecrypted, setIsDecrypted] = useState(false); // Tracks if the database is currently decrypted and accessible
   const [showForm, setShowForm] = useState(false); // Toggles visibility of the DataEntryForm
   const [shouldDecrypt, setShouldDecrypt] = useState(false); // Flag to trigger decryption attempt after password entry/retrieval
-  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error'; actionText?: string; onAction?: () => void; } | null>(null);
+  const [notification, setNotification] = useState<{ message: string; type: 'success' | 'error' | 'info' | 'warning'; actionText?: string; onAction?: () => void; } | null>(null);
   const [activeTab, setActiveTab] = useState<'netWorth' | 'transactions'>('netWorth');
   const [dataVersion, setDataVersion] = useState(0);
   // const [showUpdateReminder, setShowUpdateReminder] = useState(false); // Replaced by new notification system
 
   // Function to show notification
-  const showNotification = useCallback((message: string, type: 'success' | 'error', actionText?: string, onAction?: () => void) => {
+  const showNotification = useCallback((message: string, type: 'success' | 'error' | 'info' | 'warning', actionText?: string, onAction?: () => void) => {
     setNotification({ message, type, actionText, onAction });
     setTimeout(() => setNotification(null), 5000); // Auto-dismiss after 5 seconds
   }, []);

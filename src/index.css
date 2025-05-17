@@ -25,6 +25,16 @@
     --button-secondary-bg-color: var(--primary-accent2);
     --button-secondary-text-color: var(--text-color-on-secondary);
     --shadow-color: rgba(0, 0, 0, 0.1);
+
+    /* Notification/Status colors - Default Theme */
+    --success-bg-color: #D4EDDA; /* Light Green */
+    --success-text-color: #155724; /* Dark Green */
+    --danger-bg-color: #F8D7DA;  /* Light Red */
+    --danger-text-color: #721C24;  /* Dark Red */
+    --info-bg-color: #D1ECF1;    /* Light Blue */
+    --info-text-color: #0C5460;   /* Dark Blue */
+    --warning-bg-color: #FFF3CD; /* Light Yellow */
+    --warning-text-color: #856404; /* Dark Yellow */
   }
 
   :root[data-theme="light-cyberpunk"] {
@@ -57,6 +67,16 @@
     --primary-accent1-glow: rgba(0, 255, 255, 0.4);
     --primary-accent2-glow: rgba(255, 0, 255, 0.4);
     --shadow-color: rgba(50, 50, 50, 0.2); /* Darker subtle shadow */
+
+    /* Notification/Status colors - Light Cyberpunk Theme */
+    --success-bg-color: rgba(50, 205, 50, 0.2); /* Lime Green with alpha */
+    --success-text-color: var(--primary-accent3); /* Lime Green */
+    --danger-bg-color: rgba(255, 0, 0, 0.2);   /* Red with alpha */
+    --danger-text-color: #FF4444;             /* Bright Red */
+    --info-bg-color: rgba(0, 255, 255, 0.15);  /* Electric Blue with alpha */
+    --info-text-color: var(--primary-accent1);  /* Electric Blue */
+    --warning-bg-color: rgba(255, 255, 0, 0.2); /* Yellow with alpha */
+    --warning-text-color: #FFFF00;            /* Bright Yellow */
   }
 
   body {

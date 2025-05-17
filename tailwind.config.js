@@ -24,6 +24,16 @@ module.exports = {
         'button-primary-text': 'var(--button-primary-text-color, var(--text-color-on-primary))',
         'button-secondary-bg': 'var(--button-secondary-bg-color, var(--primary-accent2))',
         'button-secondary-text': 'var(--button-secondary-text-color, var(--text-color-on-secondary))',
+
+        // Notification/Status colors
+        'theme-success-bg': 'var(--success-bg-color)',
+        'theme-success-text': 'var(--success-text-color)',
+        'theme-danger-bg': 'var(--danger-bg-color)',
+        'theme-danger-text': 'var(--danger-text-color)',
+        'theme-info-bg': 'var(--info-bg-color)',
+        'theme-info-text': 'var(--info-text-color)',
+        'theme-warning-bg': 'var(--warning-bg-color)',
+        'theme-warning-text': 'var(--warning-text-color)',
       },
       borderColor: theme => ({
         ...theme('colors'), // Make all colors available for borders

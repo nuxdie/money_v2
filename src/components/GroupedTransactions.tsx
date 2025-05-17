@@ -11,40 +11,40 @@ export function GroupedTransactions({ groupedData }: GroupedTransactionsProps) {
   return (
     <div className="space-y-8">
       {groupedData.map((group) => (
-        <div key={group.id} id={group.id} className="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div key={group.id} id={group.id} className="bg-theme-card shadow overflow-hidden sm:rounded-lg">
           <div className="px-4 py-5 sm:px-6">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">{group.name}</h3>
+            <h3 className="text-lg leading-6 font-medium text-theme-text">{group.name}</h3>
           </div>
-          <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
-            <dl className="sm:divide-y sm:divide-gray-200">
+          <div className="border-t border-theme-secondary-1 px-4 py-5 sm:p-0">
+            <dl className="sm:divide-y sm:divide-theme-secondary-1">
               <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">Current Holdings</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{group.sumAantal}</dd>
+                <dt className="text-sm font-medium text-theme-text-secondary">Current Holdings</dt>
+                <dd className="mt-1 text-sm text-theme-text sm:mt-0 sm:col-span-2">{group.sumAantal}</dd>
               </div>
               <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">Total Buy</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{group.sumBuy.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</dd>
+                <dt className="text-sm font-medium text-theme-text-secondary">Total Buy</dt>
+                <dd className="mt-1 text-sm text-theme-text sm:mt-0 sm:col-span-2">{group.sumBuy.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</dd>
               </div>
               <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">Total Sell</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{group.sumSell.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</dd>
+                <dt className="text-sm font-medium text-theme-text-secondary">Total Sell</dt>
+                <dd className="mt-1 text-sm text-theme-text sm:mt-0 sm:col-span-2">{group.sumSell.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</dd>
               </div>
               <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">Total Earned</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{group.sumAll.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</dd>
+                <dt className="text-sm font-medium text-theme-text-secondary">Total Earned</dt>
+                <dd className="mt-1 text-sm text-theme-text sm:mt-0 sm:col-span-2">{group.sumAll.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</dd>
               </div>
               <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">Return</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{group.returnsRatio.toFixed(2)}%</dd>
+                <dt className="text-sm font-medium text-theme-text-secondary">Return</dt>
+                <dd className="mt-1 text-sm text-theme-text sm:mt-0 sm:col-span-2">{group.returnsRatio.toFixed(2)}%</dd>
               </div>
             </dl>
           </div>
           <div className="px-4 py-5 sm:px-6">
-            <h4 className="text-lg leading-6 font-medium text-gray-900">Price History</h4>
+            <h4 className="text-lg leading-6 font-medium text-theme-text">Price History</h4>
             <UplotChart data={convertData(group.transactions)} />
           </div>
           <div className="px-4 py-5 sm:px-6">
-            <h4 className="text-lg leading-6 font-medium text-gray-900 mb-4">Transactions</h4>
+            <h4 className="text-lg leading-6 font-medium text-theme-text mb-4">Transactions</h4>
             <TransactionsTable<Transaction>
               headers={['Datum', 'Tijd', 'Aantal', 'Koers', 'KoersValuta', 'Waarde', 'WaardeValuta', 'Totaal', 'TotaalValuta']}
               data={group.transactions}
