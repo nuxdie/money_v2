@@ -93,25 +93,25 @@ export function DataEntryForm({ db, onDataAdded, showNotification, handleDownloa
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-6 bg-white shadow-lg rounded-lg transition-all hover:shadow-xl">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Add Financial Data</h2>
+    <form onSubmit={handleSubmit} className="p-6 bg-theme-card shadow-lg rounded-lg transition-all hover:shadow-xl">
+      <h2 className="text-2xl font-bold mb-6 text-theme-text">Add Financial Data</h2>
       <div className="flex flex-col md:flex-row md:items-end md:space-x-4">
         <div className="mb-4 md:mb-0 md:flex-1">
-          <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+          <label htmlFor="date" className="block text-sm font-medium text-theme-text-secondary mb-1">Date</label>
           <div className="relative">
             <DatePicker
               selected={date}
               onChange={(date: Date | null) => setDate(date)}
               dateFormat="yyyy-MM-dd"
-              className="pl-10 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="input-field pl-10 mt-1 block w-full"
             />
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FiCalendar className="text-gray-400" />
+              <FiCalendar className="text-theme-text-secondary" />
             </div>
           </div>
         </div>
         <div className="mb-4 md:mb-0 md:flex-1">
-          <label htmlFor="income" className="block text-sm font-medium text-gray-700 mb-1">Income</label>
+          <label htmlFor="income" className="block text-sm font-medium text-theme-text-secondary mb-1">Income</label>
           <div className="relative">
             <input
               type="text"
@@ -125,15 +125,15 @@ export function DataEntryForm({ db, onDataAdded, showNotification, handleDownloa
               }}
               onBlur={() => handleBlur('income')}
               onFocus={() => setDisplayIncome(income)}
-              className="pl-10 pr-3 py-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="input-field pl-10 pr-3 py-2 mt-1 block w-full"
             />
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FiDollarSign className="text-gray-400" />
+              <FiDollarSign className="text-theme-text-secondary" />
             </div>
           </div>
         </div>
         <div className="mb-6 md:mb-0 md:flex-1">
-          <label htmlFor="worth" className="block text-sm font-medium text-gray-700 mb-1">Net Worth</label>
+          <label htmlFor="worth" className="block text-sm font-medium text-theme-text-secondary mb-1">Net Worth</label>
           <div className="relative">
             <input
               type="text"
@@ -147,17 +147,17 @@ export function DataEntryForm({ db, onDataAdded, showNotification, handleDownloa
               }}
               onBlur={() => handleBlur('worth')}
               onFocus={() => setDisplayWorth(worth)}
-              className="pl-10 pr-3 py-2 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+              className="input-field pl-10 pr-3 py-2 mt-1 block w-full"
             />
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FiBriefcase className="text-gray-400" />
+              <FiBriefcase className="text-theme-text-secondary" />
             </div>
           </div>
         </div>
         <div className="md:ml-4">
           <button
             type="submit"
-            className="w-full md:w-auto px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all hover:scale-105"
+            className="w-full md:w-auto px-6 py-2 bg-theme-success text-white rounded-md hover:bg-theme-success-hover focus:outline-none focus:ring-2 focus:ring-theme-success transition-all hover:scale-105"
           >
             Add Data
           </button>

@@ -41,14 +41,14 @@ export function TransactionsTable<T extends TableData>({
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
+      <table className="min-w-full divide-y divide-theme-secondary-1">
+        <thead className="bg-theme-secondary-2 text-theme-text">
           <tr>
-            {showHref && <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>}
+            {showHref && <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">#</th>}
             {headers.map((header) => (
               <th
                 key={header as string}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSort(header)}
               >
                 <div className="flex items-center">
@@ -61,11 +61,11 @@ export function TransactionsTable<T extends TableData>({
             ))}
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-theme-bg divide-y divide-theme-secondary-1 text-theme-text">
           {sortedData.map((row, index) => (
-            <tr key={index} className={`${row.className} hover:bg-gray-50`}>
+            <tr key={index} className={`${row.className || ''} hover:bg-theme-secondary-1`}>
               {showHref && (
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-500 hover:text-blue-700">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-theme-primary hover:text-theme-primary-hover">
                   <a href={`#${row.id}`}>#</a>
                 </td>
               )}
@@ -73,13 +73,13 @@ export function TransactionsTable<T extends TableData>({
                 const value = row[header];
               if (typeof value === 'string' || typeof value === 'number' || value instanceof Date) {
                 return (
-                  <td key={header as string} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td key={header as string} className="px-6 py-4 whitespace-nowrap text-sm">
                     {formatCellValue(value)}
                   </td>
                 );
               } else {
                 return (
-                  <td key={header as string} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td key={header as string} className="px-6 py-4 whitespace-nowrap text-sm">
                     Unknown type
                   </td>
                 );

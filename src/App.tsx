@@ -160,13 +160,13 @@ function App() {
   if (!isDecrypted) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
-        <form onSubmit={handleSubmit} className="p-8 bg-white shadow-lg rounded-lg w-full max-w-md transform transition-all hover:scale-105">
-          <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Financial Dashboard</h2>
+        <form onSubmit={handleSubmit} className="p-8 bg-theme-card shadow-lg rounded-lg w-full max-w-md transform transition-all hover:scale-105">
+          <h2 className="text-3xl font-bold mb-6 text-center text-theme-text">Financial Dashboard</h2>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium text-theme-text-secondary mb-1">Password</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FiLock className="text-gray-400" />
+                <FiLock className="text-theme-text-secondary" />
               </div>
               <input
                 type="password"
@@ -176,13 +176,13 @@ function App() {
                 placeholder="Enter password"
                 required
                 autoFocus={true}
-                className="pl-10 w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="pl-10 w-full px-3 py-2 border border-theme-secondary-1 rounded-md focus:outline-none focus:ring-2 focus:ring-theme-primary bg-theme-bg text-theme-text placeholder:text-theme-text-secondary"
               />
             </div>
           </div>
           <button
             type="submit"
-            className="w-full mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-200"
+            className="w-full mt-4 btn-primary"
           >
             Enter
           </button>
@@ -201,16 +201,16 @@ function App() {
   }
 
   return (
-    <div className="p-4 bg-gray-50 min-h-screen">
+    <div className="p-4 bg-theme-bg text-theme-text min-h-screen">
       <ThemeSwitcher /> {/* Added ThemeSwitcher component */}
-      <div className="mb-4 flex flex-col sm:flex-row items-center justify-between bg-white shadow-lg rounded-lg p-4">
+      <div className="mb-4 flex flex-col sm:flex-row items-center justify-between bg-theme-card shadow-lg rounded-lg p-4">
         <div className="flex items-center mb-4 sm:mb-0">
           <img src="/broccori.png" alt="Broccori Logo" className="h-8 w-8 mr-2" />
           <div>
-            <h1 className="block text-3xl font-bold text-gray-900">
+            <h1 className="block text-3xl font-bold text-theme-text">
               ファイナンシャル ブロッコリー
             </h1>
-            <span className="block text-sm text-gray-500 mt-1">
+            <span className="block text-sm text-theme-text-secondary mt-1">
               [Fah-ee-nah-n-shah-ru Bu-ro-kko-ree]
             </span>
           </div>
@@ -220,21 +220,21 @@ function App() {
             href="https://github.com/WiegerWolf/money_v2"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center px-4 py-2 border-2 border-gray-800 text-gray-800 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all hover:scale-105"
+            className="flex items-center justify-center btn-secondary transition-all hover:scale-105"
           >
             <FiGithub className="mr-2" />
             GitHub
           </a>
           <button
             onMouseDown={handleDownload}
-            className="flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all hover:scale-105"
+            className="flex items-center justify-center btn-primary transition-all hover:scale-105"
           >
             <FiDownload className="mr-2" />
             Download DB
           </button>
           <button
             onClick={handleLogout}
-            className="flex items-center justify-center px-4 py-2 border-2 border-red-500 text-red-500 rounded-md hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all hover:scale-105"
+            className="flex items-center justify-center px-4 py-2 border-2 border-theme-danger text-theme-danger rounded-md hover:bg-theme-danger-hover focus:outline-none focus:ring-2 focus:ring-theme-danger transition-all hover:scale-105"
           >
             <FiLogOut className="mr-2" />
             Logout
@@ -243,16 +243,16 @@ function App() {
       </div>
       {db && (
         <div>
-          <div className="mb-4 flex border-b">
+          <div className="mb-4 flex border-b border-theme-secondary-1">
             <button
-              className={`py-2 px-4 ${activeTab === 'netWorth' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
+              className={`py-2 px-4 ${activeTab === 'netWorth' ? 'border-b-2 border-theme-primary text-theme-primary' : 'text-theme-text-secondary'}`}
               onClick={() => setActiveTab('netWorth')}
             >
               <FiDollarSign className="inline mr-2" />
               Net Worth
             </button>
             <button
-              className={`py-2 px-4 ${activeTab === 'transactions' ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500'}`}
+              className={`py-2 px-4 ${activeTab === 'transactions' ? 'border-b-2 border-theme-primary text-theme-primary' : 'text-theme-text-secondary'}`}
               onClick={() => setActiveTab('transactions')}
             >
               <FiList className="inline mr-2" />
@@ -266,10 +266,10 @@ function App() {
                 <button
                   onClick={() => setShowForm(!showForm)}
                   className={`flex items-center px-3 py-2 ${
-                    showForm 
-                      ? 'border-2 border-green-500 text-green-600 hover:bg-green-50' 
-                      : 'bg-green-500 text-white hover:bg-green-600'
-                  } rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors duration-200`}
+                    showForm
+                      ? 'border-2 border-theme-success text-theme-success hover:bg-theme-success-hover'
+                      : 'bg-theme-success text-white hover:bg-theme-success-hover'
+                  } rounded-md focus:outline-none focus:ring-2 focus:ring-theme-success transition-colors duration-200`}
                 >
                   <FiPlusCircle className="mr-2" />
                   {showForm ? 'Hide Form' : 'Add Data'}
