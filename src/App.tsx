@@ -256,7 +256,7 @@ function App() {
                 <button
                   onClick={playPronunciation}
                   aria-label="Play pronunciation"
-                  className="p-1 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors"
+                  className="pt-1 rounded hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors"
                 >
                   <FiVolume2 className="h-5 w-5 text-gray-600" />
                 </button>
